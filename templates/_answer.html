@@ -1,0 +1,14 @@
+{% if error %}
+  <p class="error" role="alert">{{ error }}</p>
+{% elif result %}
+  <h2>Answer</h2>
+  <p>{{ result.answer }}</p>
+  <h3>Sources</h3>
+  <ol>
+    {% for c in result.citations %}
+      <li>{{ c.title }} (document {{ c.id }})</li>
+    {% endfor %}
+  </ol>
+{% else %}
+  <p>No answer found for "{{ question }}". Try different words, for example "password" or "support hours".</p>
+{% endif %}

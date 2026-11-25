@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form id="ask-form"
+      hx-post="/ask"
+      hx-target="#answer-area"
+      hx-swap="innerHTML"
+      hx-indicator="#status">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+  <label for="question">Your question</label>
+  <input id="question" name="question" type="text"
+         autocomplete="off" placeholder="For example: How do I reset my password?">
+  <button type="submit">Ask</button>
+  <p id="status" class="htmx-indicator" role="status">Searching...</p>
+</form>
+
+<section id="answer-area" aria-live="polite"></section>
+{% endblock %}

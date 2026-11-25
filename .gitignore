@@ -2,3 +2,7 @@
 __pycache__/
 .pytest_cache/
 *.pyc
+.venv/
+.env
+app.db
+__pycache__/

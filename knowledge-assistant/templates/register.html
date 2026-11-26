@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Register - Knowledge Assistant</title>
+</head>
+<body>
+<main>
+  <h1>Create an account</h1>
+
+  {% if success %}
+  <p role="status">Account created. <a href="/login">Sign in</a>.</p>
+  {% else %}
+
+  {% if problems %}
+  <div role="alert">
+    <p>Please fix the following:</p>
+    <ul>
+      {% for problem in problems %}<li>{{ problem }}</li>{% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  <form method="post" action="/register">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+    <p>
+      <label for="username">Username</label><br>
+      <input id="username" name="username" type="text" value="{{ username }}"
+             autocomplete="username" required minlength="3" maxlength="32"
+             aria-describedby="username-help">
+      <br><small id="username-help">3 to 32 characters: lowercase letters, digits, dot, dash, underscore.</small>
+    </p>
+
+    <p>
+      <label for="password">Password</label><br>
+      <input id="password" name="password" type="password"
+             autocomplete="new-password" required minlength="15"
+             aria-describedby="password-help">
+      <br><small id="password-help">At least 15 characters. A long phrase with spaces works well. Pasting is allowed.</small>
+    </p>
+
+    <p><button type="submit">Create account</button></p>
+  </form>
+  {% endif %}
+</main>
+</body>
+</html>

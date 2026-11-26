@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My account - Knowledge Assistant</title>
+</head>
+<body>
+<main>
+  <h1>Signed in</h1>
+  <p>Username: <strong>{{ username }}</strong></p>
+  <p>Role: <strong>{{ role }}</strong></p>
+
+  {% if must_change_password %}
+  <p role="alert">Your password appears on a list of compromised passwords. Please change it.</p>
+  {% endif %}
+
+  <form method="post" action="/logout">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <button type="submit">Sign out</button>
+  </form>
+</main>
+</body>
+</html>

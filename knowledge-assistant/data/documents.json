@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "title": "Password reset",
+    "text": "To reset your password, open Settings, choose Security, and select Reset password. A reset link is sent to your registered email."
+  },
+  {
+    "id": 2,
+    "title": "Support hours",
+    "text": "Support is available Monday to Friday, 9 AM to 6 PM IST. You can reach the team by email or chat."
+  },
+  {
+    "id": 3,
+    "title": "Security test note",
+    "text": "This document is used for testing. It contains the text <script>alert(1)</script> to check that scripts are shown as text and never run."
+  }
+]

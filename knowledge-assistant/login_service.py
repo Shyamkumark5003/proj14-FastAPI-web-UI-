@@ -1,3 +1,6 @@
+import hmac
+import os
+import secrets
 import sqlite3
 from dataclasses import dataclass
 from datetime import datetime, timedelta
@@ -36,6 +39,19 @@ class LoginResult:
 def _dummy_hash() -> str:
     # Used when the username does not exist, so the response time looks the same.
     return hash_password("dummy password used only for timing")
+
+
+_LOG_KEY = os.environ.get("AUTH_LOG_KEY", "").encode("utf-8") or secrets.token_bytes(32)
+
+
+def _unknown_key(typed: str) -> str:
+    """Opaque stand-in for a username that does not exist.
+
+    People sometimes type their password into the username box, so the typed text of an
+    unknown user is never stored or logged. A keyed hash still lets throttling work.
+    """
+    tag = hmac.new(_LOG_KEY, typed.encode("utf-8"), "sha256").hexdigest()[:16]
+    return f"unknown:{tag}"
 
 
 def _record_attempt(conn, username: str, ip: str, success: bool, now: datetime) -> None:
@@ -83,16 +99,22 @@ def login_user(
     now: Optional[datetime] = None,
 ) -> LoginResult:
     now = now or utc_now()
-    name = username.strip().lower()[:64]
+    typed = username.strip().lower()[:64]
+
+    user = conn.execute("SELECT * FROM users WHERE username = ?", (typed,)).fetchone()
+    # Only real usernames are stored or logged. Unknown ones become an opaque key.
+    name = typed if user else _unknown_key(typed)
 
     # 1. Throttle check first: even a correct password is refused while blocked.
     if is_throttled(conn, name, ip, now):
-        log_event(conn, "login_throttled", ip=ip, detail=f"username={name}")
+        log_event(
+            conn, "login_throttled",
+            user_id=user["id"] if user else None, ip=ip, detail=f"username={name}",
+        )
         conn.commit()
         raise LoginError(THROTTLE_ERROR, throttled=True)
 
     # 2. Always run one argon2 verification, even for unknown users.
-    user = conn.execute("SELECT * FROM users WHERE username = ?", (name,)).fetchone()
     stored_hash = user["password_hash"] if user else _dummy_hash()
     valid, needs_rehash = verify_password(stored_hash, password)
     if user is None:

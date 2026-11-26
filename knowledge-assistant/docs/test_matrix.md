@@ -24,3 +24,16 @@ The matrix is enforced by `tests/test_access_matrix.py`, which also checks that 
 ## Audit events
 
 `ownership_denied`, `access_denied`, `record_access_other`, `record_created`, `record_deleted`.
+
+## Beyond the records endpoints
+
+| Endpoint | Anonymous | Logged in | Forced password change pending |
+|---|---|---|---|
+| GET / | 303 to /login | 200 | 303 to /change-password |
+| POST /ask | 401 | 200 (needs ask:use and a CSRF token) | 403 |
+| POST /api/ask | 401 without API key, 200 with a valid key | session not used | not applicable |
+| GET /records, GET /admin/users and the other records routes | 401 | see the matrix above | 403 "Password change required" |
+| GET /change-password | 303 to /login | 200 | 200 |
+| POST /change-password | 303 to /login | 200 or 400 | 200 or 400 |
+
+`/ask`, `/` and the forced-change rules are covered by `tests/test_ask_protection.py` and `tests/test_change_password.py`.

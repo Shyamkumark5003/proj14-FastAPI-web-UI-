@@ -22,8 +22,11 @@ templates = Jinja2Templates(directory=BASE_DIR / "templates")
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
     """Show the full page and issue a CSRF token. Login required."""
-    if get_current_user(request) is None:
+    user = get_current_user(request)
+    if user is None:
         return RedirectResponse("/login", status_code=303)
+    if user["must_change_password"]:
+        return RedirectResponse("/change-password", status_code=303)
     token = request.cookies.get(CSRF_COOKIE) or secrets.token_urlsafe(32)
     response = templates.TemplateResponse(
         request, "index.html", {"page_title": "Knowledge Assistant", "csrf_token": token}

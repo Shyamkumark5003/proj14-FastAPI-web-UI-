@@ -166,3 +166,72 @@ def me_page(request: Request):
         username=user["username"], role=user["role"],
         must_change_password=bool(user["must_change_password"]),
     )
+
+
+# ---------------- change password ----------------
+
+from password_service import PasswordChangeError, change_password  # noqa: E402
+
+
+@router.get("/change-password", response_class=HTMLResponse)
+def change_password_page(request: Request):
+    user = get_current_user(request)
+    if user is None:
+        return RedirectResponse("/login", status_code=303)
+    return _page(
+        request, "change_password.html", _csrf_token(request),
+        problems=[], forced=bool(user["must_change_password"]),
+    )
+
+
+@router.post("/change-password", response_class=HTMLResponse)
+def change_password_submit(
+    request: Request,
+    current_password: str = Form(""),
+    new_password: str = Form(""),
+    confirm_password: str = Form(""),
+    csrf_token: str = Form(""),
+):
+    cookie_token = _check_csrf(request, csrf_token)
+    user = get_current_user(request)
+    if user is None:
+        return RedirectResponse("/login", status_code=303)
+    forced = bool(user["must_change_password"])
+
+    if new_password != confirm_password:
+        return _page(
+            request, "change_password.html", cookie_token, status_code=400,
+            problems=["The new passwords do not match."], forced=forced,
+        )
+
+    conn = db.get_conn()
+    try:
+        token = change_password(
+            conn, user["id"], current_password, new_password, ip=_client_ip(request)
+        )
+    except PasswordChangeError as exc:
+        # Passwords are never sent back to the page.
+        response = _page(
+            request, "change_password.html", cookie_token,
+            status_code=429 if exc.throttled else 400,
+            problems=exc.problems, forced=forced,
+        )
+        if exc.throttled:
+            response.headers["Retry-After"] = "900"
+        return response
+    finally:
+        conn.close()
+
+    # All old sessions are revoked; this device gets a fresh one.
+    response = RedirectResponse("/me", status_code=303)
+    response.set_cookie(
+        key=session_cookie_name(),
+        value=token,
+        max_age=int(SESSION_TTL.total_seconds()),
+        httponly=True,
+        secure=cookie_secure(),
+        samesite="lax",
+        path="/",
+    )
+    _set_csrf_cookie(response, secrets.token_urlsafe(32))
+    return response

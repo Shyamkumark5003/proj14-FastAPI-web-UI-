@@ -52,6 +52,9 @@ def require_permission(permission: str):
         user = get_current_user(request)
         if user is None:
             raise HTTPException(status_code=401, detail="Not authenticated")
+        if user["must_change_password"]:
+            # Forced change: only the change-password page works until it is done.
+            raise HTTPException(status_code=403, detail="Password change required")
         if not has_permission(user["role"], permission):
             _audit(
                 "access_denied", user["id"], _client_ip(request),

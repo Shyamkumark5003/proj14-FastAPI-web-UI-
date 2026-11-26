@@ -12,11 +12,12 @@
   <p>Role: <strong>{{ role }}</strong></p>
 
   {% if must_change_password %}
-  <p role="alert">Your password appears on a list of compromised passwords. Please change it.</p>
+  <p role="alert">Your password appears on a list of compromised passwords. <a href="/change-password">Change it now</a>.</p>
   {% endif %}
 
   <p><a href="/">Open the Knowledge Assistant</a></p>
-  <p><a href="/">Open the Knowledge Assistant</a></p>
+  <p><a href="/change-password">Change password</a></p>
+
   <form method="post" action="/logout">
     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
     <button type="submit">Sign out</button>

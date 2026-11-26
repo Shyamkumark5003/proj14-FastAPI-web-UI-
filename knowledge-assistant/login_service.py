@@ -151,3 +151,10 @@ def logout_user(
     log_event(conn, "logout", user_id=user_id, ip=ip)
     conn.commit()
     return True
+
+
+def record_failed_attempt(
+    conn: sqlite3.Connection, username: str, ip: str, now: Optional[datetime] = None
+) -> None:
+    """Count a failed password check that did not come from the login form."""
+    _record_attempt(conn, username, ip, False, now or utc_now())

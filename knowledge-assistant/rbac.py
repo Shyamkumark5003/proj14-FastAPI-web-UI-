@@ -10,12 +10,14 @@ from auth_deps import get_current_user
 # Single source of truth: which role may do what. Unknown roles get nothing.
 ROLE_PERMISSIONS = {
     "user": frozenset({
+        "ask:use",
         "records:create",
         "records:list_own",
         "records:read",
         "records:delete",
     }),
     "admin": frozenset({
+        "ask:use",
         "records:create",
         "records:list_own",
         "records:read",

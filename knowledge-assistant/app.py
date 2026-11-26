@@ -2,11 +2,13 @@ import hmac
 import secrets
 from pathlib import Path
 
-from fastapi import FastAPI, Form, Request
-from fastapi.responses import HTMLResponse
+from fastapi import Depends, FastAPI, Form, Request
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
+from auth_deps import get_current_user
+from rbac import require_permission
 from services.search import search
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -19,7 +21,9 @@ templates = Jinja2Templates(directory=BASE_DIR / "templates")
 
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
-    """Show the full page and issue a CSRF token."""
+    """Show the full page and issue a CSRF token. Login required."""
+    if get_current_user(request) is None:
+        return RedirectResponse("/login", status_code=303)
     token = request.cookies.get(CSRF_COOKIE) or secrets.token_urlsafe(32)
     response = templates.TemplateResponse(
         request, "index.html", {"page_title": "Knowledge Assistant", "csrf_token": token}
@@ -33,8 +37,9 @@ async def ask(
     request: Request,
     question: str = Form(""),
     csrf_token: str = Form(""),
+    user=Depends(require_permission("ask:use")),
 ):
-    """Return only the answer fragment, after checking the CSRF token."""
+    """Return the answer fragment. Needs a session, the ask:use permission and a CSRF token."""
     cookie_token = request.cookies.get(CSRF_COOKIE, "")
     if not cookie_token or not hmac.compare_digest(cookie_token, csrf_token):
         return templates.TemplateResponse(

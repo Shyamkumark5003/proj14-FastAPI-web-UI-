@@ -1,3 +1,4 @@
+from hardening.upload_routes import router as upload_router
 from hardening.rate_limit import RateLimitMiddleware, default_rules
 from hardening.body_limit import BodySizeLimitMiddleware
 from hardening.headers import SecurityHeadersMiddleware
@@ -154,3 +155,4 @@ app.add_middleware(
 app.add_middleware(RateLimitMiddleware, rules=default_rules())
 add_cors(app)
 app.add_middleware(SecurityHeadersMiddleware, enable_hsts=False)
+app.include_router(upload_router)

@@ -38,6 +38,7 @@ class Rule:
 def default_rules() -> list:
     return [
         Rule("auth", 10, 60, paths=("/login", "/register", "/change-password"), methods=("POST",)),
+        Rule("upload", 10, 60, paths=("/upload",), methods=("POST",)),
         Rule("ask", 30, 60, paths=("/ask", "/api/ask"), methods=("POST",)),
         Rule("default", 120, 60),
     ]

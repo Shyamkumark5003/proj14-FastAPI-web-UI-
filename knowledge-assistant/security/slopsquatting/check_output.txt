@@ -1,0 +1,100 @@
+=== slowapi ===
+summary       : A rate limiting extension for Starlette and Fastapi
+author        : Laurent Savaete
+maintainer    : None
+first release : 2020-02-21 (version 0.1.0)
+latest upload : 2026-06-13 (version 0.1.10)
+release count : 11
+project urls  : {'Documentation': 'https://slowapi.readthedocs.io/en/latest/', 'Homepage': 'https://github.com/laurents/slowapi', 'Repository': 'https://github.com/laurents/slowapi'}
+pypi page     : https://pypi.org/project/slowapi/
+
+=== fastapi-limiter ===
+summary       : A request rate limiter for fastapi
+author        : long2ice
+maintainer    : None
+first release : 2020-11-09 (version 0.1.0)
+latest upload : 2026-02-06 (version 0.2.0)
+release count : 8
+project urls  : {'Documentation': 'https://github.com/long2ice/fastapi-limiter', 'Homepage': 'https://github.com/long2ice/fastapi-limiter', 'Repository': 'https://github.com/long2ice/fastapi-limiter.git'}
+pypi page     : https://pypi.org/project/fastapi-limiter/
+
+=== secure ===
+summary       : A lightweight package that adds security headers for Python web frameworks.
+author        : Caleb Kinney <caleb@typeerror.com>
+maintainer    : None
+first release : 2018-11-27 (version 0.1.0)
+latest upload : 2026-11-19 (version 2.0.2)
+release count : 18
+project urls  : {'Documentation': 'https://github.com/TypeError/secure/tree/main/docs', 'Homepage': 'https://github.com/TypeError/secure', 'Issue Tracker': 'https://github.com/TypeError/secure/issues', 'Repository': 'https://github.com/TypeError/secure'}
+pypi page     : https://pypi.org/project/secure/
+
+=== python-magic ===
+summary       : File type identification using libmagic
+author        : Adam Hupp
+maintainer    : 
+first release : 2010-04-01 (version 0.2)
+latest upload : 2022-06-07 (version 0.4.27)
+release count : 28
+project urls  : {'Homepage': 'http://github.com/ahupp/python-magic'}
+pypi page     : https://pypi.org/project/python-magic/
+
+=== filetype ===
+summary       : Infer file type and MIME type of any file/buffer. No external dependencies.
+author        : Tomas Aparicio
+maintainer    : 
+first release : 2016-06-19 (version 0.1.0)
+latest upload : 2022-11-02 (version 1.2.0)
+release count : 22
+project urls  : {'Download': 'https://github.com/h2non/filetype.py/tarball/master', 'Homepage': 'https://github.com/h2non/filetype.py'}
+pypi page     : https://pypi.org/project/filetype/
+
+=== nh3 ===
+summary       : Python binding to Ammonia HTML sanitizer Rust crate
+author        : messense <messense@icloud.com>
+maintainer    : None
+first release : 2021-08-03 (version 0.1.0)
+latest upload : 2026-11-17 (version 0.3.8)
+release count : 35
+project urls  : {'Source Code': 'https://github.com/messense/nh3'}
+pypi page     : https://pypi.org/project/nh3/
+
+=== bleach ===
+summary       : An easy safelist-based HTML-sanitizing tool.
+author        : None
+maintainer    : Will Kahn-Greene
+first release : 2010-02-23 (version 0.2.1)
+latest upload : 2026-06-05 (version 6.4.0)
+release count : 61
+project urls  : {'Homepage': 'https://github.com/mozilla/bleach'}
+pypi page     : https://pypi.org/project/bleach/
+
+=== itsdangerous ===
+summary       : Safely pass data to untrusted environments and back.
+author        : None
+maintainer    : Pallets <contact@palletsprojects.com>
+first release : 2011-06-24 (version 0.9)
+latest upload : 2024-04-16 (version 2.2.0)
+release count : 27
+project urls  : {'Changes': 'https://itsdangerous.palletsprojects.com/changes/', 'Chat': 'https://discord.gg/pallets', 'Documentation': 'https://itsdangerous.palletsprojects.com/', 'Donate': 'https://palletsprojects.com/donate', 'Source': 'https://github.com/pallets/itsdangerous/'}
+pypi page     : https://pypi.org/project/itsdangerous/
+
+=== pydantic-settings ===
+summary       : Settings management using Pydantic
+author        : Samuel Colvin <s@muelcolvin.com>, Eric Jolibois <em.jolibois@gmail.com>, Hasan Ramezani <hasan.r67@gmail.com>
+maintainer    : None
+first release : 2019-08-19 (version 0.1.0a1)
+latest upload : 2026-11-13 (version 2.16.3)
+release count : 49
+project urls  : {'Changelog': 'https://github.com/pydantic/pydantic-settings/releases', 'Documentation': 'https://docs.pydantic.dev/dev-v2/concepts/pydantic_settings/', 'Funding': 'https://github.com/sponsors/samuelcolvin', 'Homepage': 'https://github.com/pydantic/pydantic-settings', 'Source': 'https://github.com/pydantic/pydantic-settings'}
+pypi page     : https://pypi.org/project/pydantic-settings/
+
+=== python-multipart ===
+summary       : A streaming multipart parser for Python
+author        : Andrew Dunham <andrew@du.nham.ca>
+maintainer    : Marcelo Trylesinski <marcelotryle@gmail.com>
+first release : 2013-03-26 (version 0.0.1)
+latest upload : 2026-11-16 (version 0.0.34)
+release count : 34
+project urls  : {'Changelog': 'https://github.com/Kludex/python-multipart/blob/master/CHANGELOG.md', 'Documentation': 'https://kludex.github.io/python-multipart/', 'Homepage': 'https://github.com/Kludex/python-multipart', 'Source': 'https://github.com/Kludex/python-multipart'}
+pypi page     : https://pypi.org/project/python-multipart/
+

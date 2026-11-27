@@ -1,3 +1,5 @@
+from hardening.headers import SecurityHeadersMiddleware
+from hardening.cors import add_cors
 import hmac
 import secrets
 from pathlib import Path
@@ -140,3 +142,7 @@ app.include_router(auth_router)
 from records_routes import router as records_router  # noqa: E402
 
 app.include_router(records_router)
+
+# Task 17: security headers and CORS allowlist
+add_cors(app)
+app.add_middleware(SecurityHeadersMiddleware, enable_hsts=False)

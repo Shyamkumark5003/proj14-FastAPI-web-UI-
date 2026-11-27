@@ -43,3 +43,10 @@ def token(client):
     match = re.search(r'name="csrf_token" value="([^"]+)"', html)
     assert match, "CSRF hidden field not found in the page"
     return match.group(1)
+
+
+# Task 17: the rate limiter is off for the normal test suite.
+# tests/test_rate_limit.py builds its own app with the limiter forced on.
+import os
+
+os.environ.setdefault("RATE_LIMIT_DISABLED", "1")

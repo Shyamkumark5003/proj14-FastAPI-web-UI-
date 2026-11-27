@@ -1,3 +1,5 @@
+from hardening.rate_limit import RateLimitMiddleware, default_rules
+from hardening.body_limit import BodySizeLimitMiddleware
 from hardening.headers import SecurityHeadersMiddleware
 from hardening.cors import add_cors
 import hmac
@@ -144,5 +146,11 @@ from records_routes import router as records_router  # noqa: E402
 app.include_router(records_router)
 
 # Task 17: security headers and CORS allowlist
+app.add_middleware(
+    BodySizeLimitMiddleware,
+    max_bytes=1_000_000,
+    path_limits={"/upload": 5_000_000},
+)
+app.add_middleware(RateLimitMiddleware, rules=default_rules())
 add_cors(app)
 app.add_middleware(SecurityHeadersMiddleware, enable_hsts=False)
